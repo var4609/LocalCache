@@ -1,8 +1,8 @@
 package org.lru;
 
-public interface BasicLRUCache {
+public interface BasicLRUCache<Key, Value> {
 
-    Integer get(Integer key);
+    Value get(Key key);
 
-    void put(Integer key, Integer value);
+    void put(Key key, Value value);
 }

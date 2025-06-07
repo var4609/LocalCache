@@ -3,17 +3,19 @@ package org.lru;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BasicLRUCacheImpl implements BasicLRUCache {
+import org.lru.dto.Node;
+
+public class BasicLRUCacheImpl<Key, Value> implements BasicLRUCache<Key, Value> {
     
     private final Integer capacity;
-    private final Node head;
-    private final Node tail;
-    private final Map<Integer, Node> storage;
+    private final Node<Key, Value> head;
+    private final Node<Key, Value> tail;
+    private final Map<Key, Node<Key, Value>> storage;
 
     public BasicLRUCacheImpl(Integer capacity) {
         this.capacity = capacity;
-        this.head = new Node();
-        this.tail = new Node();
+        this.head = new Node<Key, Value>();
+        this.tail = new Node<Key, Value>();
         this.storage = new HashMap<>();
 
         this.head.next = this.tail;
@@ -21,10 +23,10 @@ public class BasicLRUCacheImpl implements BasicLRUCache {
     }
     
     @Override
-    public Integer get(Integer key) {
+    public Value get(Key key) {
         if(storage.containsKey(key)) {
             //move to tail
-            Node node = storage.get(key);
+            Node<Key, Value> node = storage.get(key);
             //a. detach
             node.prev.next = node.next;
             node.next.prev = node.prev;
@@ -41,16 +43,16 @@ public class BasicLRUCacheImpl implements BasicLRUCache {
     }
 
     @Override
-    public void put(Integer key, Integer value) {
+    public void put(Key key, Value value) {
 
         if(storage.containsKey(key)) {
-            Node node = storage.get(key);
+            Node<Key, Value> node = storage.get(key);
 
             node.prev.next = node.next;
             node.next.prev = node.prev;           
         } else {
             if(this.storage.size() == this.capacity) {
-                Node del = head.next;
+                Node<Key, Value> del = head.next;
                 head.next = del.next;
                 del.next.prev = head;
 
@@ -58,29 +60,12 @@ public class BasicLRUCacheImpl implements BasicLRUCache {
             }
         }
 
-        Node newNode = new Node(key, value);
+        Node<Key, Value> newNode = new Node<>(key, value);
         newNode.next = tail;
         newNode.prev = tail.prev;
         tail.prev.next = newNode;
         tail.prev = newNode;
 
         storage.put(key, newNode);
-    }
-
-    private class Node {
-        Integer key;
-        Integer value;
-
-        Node prev;
-        Node next;
-
-        Node(Integer key, Integer value) {
-            this.key = key;
-            this.value = value;
-            this.prev = null;
-            this.next = null;
-        }
-
-        public Node() {}
     }
 }

@@ -7,11 +7,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BasicLRUCacheImplTest {
 
-    private BasicLRUCacheImpl cache;
+    private BasicLRUCacheImpl<Integer, Integer> cache;
 
     @BeforeEach
     void setup() {
-        cache = new BasicLRUCacheImpl(2);
+        cache = new BasicLRUCacheImpl<>(2);
     }
 
     @Test
