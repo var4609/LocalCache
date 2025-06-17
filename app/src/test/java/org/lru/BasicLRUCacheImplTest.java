@@ -2,6 +2,7 @@ package org.lru;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.lru.cache.BasicLRUCacheImpl;
 
 import static org.junit.jupiter.api.Assertions.*;
 

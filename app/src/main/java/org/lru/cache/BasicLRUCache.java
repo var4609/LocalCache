@@ -1,4 +1,4 @@
-package org.lru;
+package org.lru.cache;
 
 public interface BasicLRUCache<Key, Value> {
 
