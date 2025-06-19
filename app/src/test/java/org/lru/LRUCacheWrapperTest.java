@@ -1,8 +1,6 @@
 package org.lru;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
