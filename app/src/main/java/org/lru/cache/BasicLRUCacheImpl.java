@@ -3,11 +3,12 @@ package org.lru.cache;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.cache.LocalCache;
 import org.lru.dto.Node;
 import org.lru.eviction.EvictionPolicy;
 import org.lru.eviction.LRUEvictionPolicy;
 
-public class BasicLRUCacheImpl<Key, Value> implements BasicLRUCache<Key, Value> {
+public class BasicLRUCacheImpl<Key, Value> implements LocalCache<Key, Value> {
     
     private final Integer capacity;
     private final Map<Key, Node<Key, Value>> storage;
