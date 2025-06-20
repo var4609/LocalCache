@@ -2,29 +2,12 @@ package org.lru;
 
 import java.util.function.Function;
 
-import org.cache.LocalCache;
+import org.cache.LocalCacheWrapper;
 import org.lru.cache.BasicLRUCacheImpl;
 
-public class LRUCacheWrapper<RequestKey, Value, CacheKey> {
+public class LRUCacheWrapper<RequestKey, Value, CacheKey> extends LocalCacheWrapper<RequestKey, Value, CacheKey> {
     
-    private LocalCache<CacheKey, Value> lruCache;
-    private Function<RequestKey, CacheKey> keyBuilder;
-
     public LRUCacheWrapper(Integer capacity, Function<RequestKey, CacheKey> keyBuilder) {
-        this.lruCache = new BasicLRUCacheImpl<>(capacity);
-        this.keyBuilder = keyBuilder;
-    }
-
-    public Value call(RequestKey key, Function<RequestKey, Value> valueLoaderFunction) {
-        CacheKey cacheKey = keyBuilder.apply(key);
-        
-        Value value = lruCache.get(cacheKey);
-
-        if(value == null) {
-            value = valueLoaderFunction.apply(key);
-            lruCache.put(cacheKey, value);
-        }
-
-        return value;
+        super(new BasicLRUCacheImpl<>(capacity), keyBuilder);
     }
 }
